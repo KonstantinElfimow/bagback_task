@@ -26,7 +26,8 @@ def main():
     W: int = int(lines[-1].split('W=')[1])
 
     start = datetime.now()
-    value_lists: dict = bagpack_task.solution(items, W)
+    # value_lists: dict = bagpack_task.solution(items, W)
+    value_lists: dict = bagpack_task.optimal_solution(items, W)
     end = datetime.now()
     # Время, потраченное на поиск решения
     print(end - start)

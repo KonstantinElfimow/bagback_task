@@ -2,6 +2,7 @@ from item import Item
 
 
 def solution(items: tuple, W: int) -> dict:
+    """ Полный перебор """
     if not W:
         return {0: []}
     # Создаём словарь (оптимальное решение: списки предметов, дающих оптимальное решение)
@@ -32,3 +33,35 @@ def solution(items: tuple, W: int) -> dict:
         # print('Решение на данном шаге: {}; {}'.format(result, [x.get_count() for x in used_items]))
     # Возвращаем результат
     return result
+
+
+def trace_result(A: list, items: tuple, k: int, s: int, result: list):
+    if A[k][s] == 0:
+        return
+    if A[k - 1][s] == A[k][s]:
+        trace_result(A, items, k - 1, s, result)
+    else:
+        trace_result(A, items, k - 1, s - items[k - 1].get_weight(), result)
+        result.append(k)
+
+
+def optimal_solution(items: tuple, W: int) -> dict:
+    """ Жадный алгоритм """
+    A: list = []
+    for i in range(len(items) + 1):
+        A.append([0 for _ in range(W + 1)])
+
+    for k in range(len(items) + 1):
+        for s in range(W + 1):
+            if k == 0 or s == 0:
+                A[k][s] = 0
+            else:
+                if s >= items[k - 1].get_weight():
+                    A[k][s] = max(A[k - 1][s], A[k - 1][s - items[k - 1].get_weight()] + items[k - 1].get_value())
+                else:
+                    A[k][s] = A[k - 1][s]
+
+    result: list = []
+    trace_result(A, items, len(items), W, result)
+    d: dict = {sum(items[i - 1].get_value() for i in result): result}
+    return d
