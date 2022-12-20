@@ -43,7 +43,7 @@ def trace_result(A: list, items: tuple, k: int, s: int, result: list):
     else:
         trace_result(A, items, k - 1, s - items[k - 1].get_weight(), result)
         result.append(k)
-        print('Что выделить в таблице: i: {}, k: {}'.format(k, s))
+        print('Что выделить в таблице: i: {}, j: {}'.format(k, s))
 
 
 def optimal_solution(items: tuple, W: int) -> dict:
