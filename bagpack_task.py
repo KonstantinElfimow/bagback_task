@@ -35,13 +35,13 @@ def solution(items: tuple, W: int) -> dict:
     return result
 
 
-def trace_result(A: list, items: tuple, k: int, s: int, result: list):
+def _trace_result(A: list, items: tuple, k: int, s: int, result: list):
     if A[k][s] == 0:
         return
     if A[k - 1][s] == A[k][s]:
-        trace_result(A, items, k - 1, s, result)
+        _trace_result(A, items, k - 1, s, result)
     else:
-        trace_result(A, items, k - 1, s - items[k - 1].get_weight(), result)
+        _trace_result(A, items, k - 1, s - items[k - 1].get_weight(), result)
         result.append(k)
         print('Что выделить в таблице: i: {}, j: {}'.format(k, s))
 
@@ -66,6 +66,6 @@ def optimal_solution(items: tuple, W: int) -> dict:
         print(temp)
 
     result: list = []
-    trace_result(A, items, len(items), W, result)
+    _trace_result(A, items, len(items), W, result)
     d: dict = {sum(items[i - 1].get_value() for i in result): result}
     return d
